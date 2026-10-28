@@ -57,17 +57,23 @@
      =================================================================== */
   var LINK_DO_APP = 'https://script.google.com/macros/s/AKfycbzc03EQPc4-9_8d0AEAjt8m0rK2xF0HUpF7DjHJqFWLlc4lzQn9IYQfLxyzyzDD_CEU6g/exec';
 
+  /* Se o app mostrar erro dentro desta página (ex.: "401" do Google), troque para false:
+     a página passa a levar o irmão direto ao app, sem moldura. */
+  var ABRIR_DENTRO_DA_PAGINA = true;
+
   (function () {
     var frame = document.getElementById('portal');
     var abertura = document.getElementById('abertura');
     var aviso = document.getElementById('aviso');
-    var configurado = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(LINK_DO_APP);
+    var configurado = /^https:\/\/script\.google\.com\/(a\/macros\/[^/]+|macros)\/s\/[^/]+\/exec/.test(LINK_DO_APP);
 
     if (!configurado) {
       document.getElementById('barra').style.display = 'none';
       aviso.innerHTML = 'Falta configurar o link do portal: edite o arquivo <b>index.html</b> e cole o link que termina em <b>/exec</b> na linha <code>LINK_DO_APP</code>.';
       return;
     }
+
+    if (!ABRIR_DENTRO_DA_PAGINA) { location.replace(LINK_DO_APP); return; }
 
     frame.addEventListener('load', function () {
       frame.classList.add('pronto');
@@ -77,7 +83,7 @@
     // Se demorar demais (rede lenta ou navegador bloqueando), oferece o acesso direto.
     setTimeout(function () {
       if (!frame.classList.contains('pronto')) {
-        aviso.innerHTML = 'Está demorando? <a href="' + LINK_DO_APP + '">Abrir o portal diretamente</a>.';
+        aviso.innerHTML = 'Está demorando? <a href="' + LINK_DO_APP + '" target="_top">Abrir o portal diretamente</a>.';
       }
     }, 12000);
     frame.src = LINK_DO_APP;
