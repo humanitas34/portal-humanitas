@@ -57,9 +57,10 @@
      =================================================================== */
   var LINK_DO_APP = 'https://script.google.com/macros/s/AKfycbzc03EQPc4-9_8d0AEAjt8m0rK2xF0HUpF7DjHJqFWLlc4lzQn9IYQfLxyzyzDD_CEU6g/exec';
 
-  /* Se o app mostrar erro dentro desta página (ex.: "401" do Google), troque para false:
-     a página passa a levar o irmão direto ao app, sem moldura. */
-  var ABRIR_DENTRO_DA_PAGINA = true;
+  /* false (recomendado): leva o irmão direto ao app — funciona em qualquer navegador.
+     true: mostra o app dentro desta página; muitos navegadores (Safari, janela anônima,
+     cookies de terceiros bloqueados) barram o login com erro "401" nesse modo. */
+  var ABRIR_DENTRO_DA_PAGINA = false;
 
   (function () {
     var frame = document.getElementById('portal');
